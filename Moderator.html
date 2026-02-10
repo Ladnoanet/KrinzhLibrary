@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrinzhLibrary Moderator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --white: #1a1a1a;
+            --black: #ffffff;
+            --bcg: #0f0f0f;
+            --border: #2a2a2a;
+            --el: #1f1f1f;
+            --accent: #FF5544;
+            --accent-hover: #FF6B5A;
+            --imgLDN: url('LDN_GLASS_BLACK.png');
+            --unnactive: #b0b0b0;
+            --unnactive1: #888888;
+            --green: #11e345;
+            --green-hover: #32ea60;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            outline: none; 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+        }
+
+        button, a { cursor: pointer; }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        body { 
+            background: var(--bcg); 
+            color: var(--black); 
+            padding: 70px; 
+        }
+
+        .objects {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .block {
+            width: 100%;
+            height: auto;
+            background: var(--el);
+            box-sizing: border-box;
+            padding: 25px;
+            border-radius: 25px;
+            display: flex; 
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .left, .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .num__of__book p {
+            font-size: 25px;
+        }
+        
+        .num__of__book span {
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .book__not__choosed {
+            width: 100%;
+            height: 200px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-size: 25px;
+            text-align: center;
+            color: var(--unnactive);
+        }
+        
+        .books__list p { 
+            font-size: 25px; 
+        }
+
+        .book__does {
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px;
+        }
+
+        .book__does header { 
+            display: flex; 
+            width: 100%; 
+            justify-content: space-between;
+        }
+
+        .book__does header p {
+            font-size: 25px;
+        }
+
+        .book__does header button { 
+            border: 1px solid var(--accent-hover); 
+            width: 40px; 
+            height: 40px; 
+            background: var(--accent); 
+            color: var(--black); 
+            border-radius: 10px; 
+        }
+
+        .book__does header button:hover { 
+            background: var(--accent-hover); 
+        }
+
+        .book__does header button.save-btn {
+            background: var(--green);
+            border-color: var(--green-hover);
+        }
+
+        .book__does header button.save-btn:hover {
+            background: var(--green-hover);
+        }
+
+        .book__does .does {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .book__does .blockdo {
+            flex: 1;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .book__does .blockdo p {
+            color: var(--unnactive);
+        }
+
+        .book__does .blockdo input {
+            width: 100%;
+            height: 40px;
+            background: none;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--black);
+            box-sizing: border-box;
+            padding-left: 15px; 
+            padding-right: 15px;
+        }
+
+        .book__does textarea {
+            min-width: 100%; 
+            resize: vertical;
+            background: none;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--black);
+            box-sizing: border-box;
+            padding: 15px;
+            min-height: 200px;
+        }
+
+        .books {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .books .book {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            border-radius: 10px;
+            background: var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .books .book:hover {
+            background: var(--el);
+        }
+
+        .books .book.selected {
+            background: var(--accent);
+            border: 2px solid var(--accent-hover);
+        }
+
+        .books .book p {
+            font-size: 18px;
+        }
+
+        .books .book .book-id {
+            font-size: 12px;
+            color: var(--unnactive);
+            margin-top: 5px;
+        }
+
+        .image-preview {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                padding: 40px;
+            }
+            
+            .objects {
+                flex-direction: column;
+            }
+
+            p {
+                font-size: 20px;
+            }
+
+            .num__of__book p {
+                font-size: 20px;
+            }
+            
+            .num__of__book span {
+                font-size: 25px;
+            }
+
+            .book__does header p {
+                font-size: 15px;
+            }
+
+            .book__does header .bottoms { 
+                gap: 10px; 
+            }
+
+            .book__does header button { 
+                width: 30px; 
+                height: 30px; 
+            }
+
+            .book__does .does {
+                flex-direction: column;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="objects">
+        <div class="left">
+            <div class="num__of__book block">
+                <p>Количество книг</p>
+                <span id="bookCount">0</span>
+            </div>
+            <div class="block dopanel">
+                <div style="display: flex;" class="book__not__choosed" id="notChoosed">
+                    <p>Выберите книгу.</p>
+                </div>
+                <div style="display: none;" class="book__does" id="bookEditor">
+                    <header>
+                        <p>Действия</p>
+                        <div style="display: flex; gap: 10px;" class="bottoms">
+                            <button class="save-btn" onclick="saveBook()"><i class="fas fa-save"></i></button>
+                            <button onclick="deleteBook()"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </header>
+                    <div class="does">
+                        <div class="blockdo">
+                            <p>Название</p>
+                            <input type="text" id="editTitle" placeholder="название">
+                        </div>
+                        <div class="blockdo">
+                            <p>Автор</p>
+                            <input type="text" id="editAutor" placeholder="автор">
+                        </div>
+                    </div>
+                    <div class="blockdo">
+                        <p>Персонажи</p>
+                        <input type="text" id="editCharacters" placeholder="персонажи">
+                    </div>
+                    <div class="blockdo">
+                        <p>Текст книги</p>
+                        <textarea id="editText" placeholder="текст книги"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="block books__list">
+                <p>Книги</p>
+                <div class="books" id="booksContainer">
+                    <div style="text-align: center; padding: 20px; color: var(--unnactive);">
+                        Загрузка...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+        const supabaseUrl = "https://dmbowvlqaoynfzdpjppd.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYm93dmxxYW95bmZ6ZHBqcHBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzNjYyMTYsImV4cCI6MjA4NTk0MjIxNn0.Nw4BPIyte-SlkpyYQdUMYIcgksYRO-TEe4cuuLkjlmM";
+
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        let allBooks = [];
+        let selectedBookId = null;
+
+        async function loadBooks() {
+            const { data, error } = await supabase
+                .from("books")
+                .select("*")
+                .order("id", { ascending: true });
+
+            const booksContainer = document.getElementById('booksContainer');
+
+            if (error) {
+                console.error("Ошибка загрузки:", error);
+                booksContainer.innerHTML = '<div style="text-align:center; padding:20px; color:var(--unnactive);">Ошибка загрузки книг</div>';
+                return;
+            }
+
+            allBooks = data || [];
+            document.getElementById('bookCount').textContent = allBooks.length;
+
+            if (allBooks.length === 0) {
+                booksContainer.innerHTML = '<div style="text-align:center; padding:20px; color:var(--unnactive);">Нет книг в базе</div>';
+                return;
+            }
+
+            displayBooks(allBooks);
+        }
+
+        function displayBooks(books) {
+            const booksContainer = document.getElementById('booksContainer');
+            booksContainer.innerHTML = '';
+
+            books.forEach(book => {
+                const bookElement = document.createElement('div');
+                bookElement.className = 'book';
+                if (selectedBookId === book.id) {
+                    bookElement.classList.add('selected');
+                }
+                bookElement.onclick = () => chooseBook(book.id);
+
+                bookElement.innerHTML = `
+                    <p style="font-size: 20px; font-weight: 600;">${book.title}</p>
+                    <p style="font-size: 14px; color: var(--unnactive); margin-top: 5px;">Автор: ${book.autor}</p>
+                    <p class="book-id">ID: ${book.id}</p>
+                `;
+
+                booksContainer.appendChild(bookElement);
+            });
+        }
+
+        window.chooseBook = function(bookId) {
+            selectedBookId = bookId;
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+
+            document.getElementById('notChoosed').style.display = 'none';
+            document.getElementById('bookEditor').style.display = 'flex';
+
+            document.getElementById('editTitle').value = book.title || '';
+            document.getElementById('editAutor').value = book.autor || '';
+            document.getElementById('editCharacters').value = book.characters || '';
+            document.getElementById('editText').value = book.text || '';
+
+            displayBooks(allBooks);
+        }
+
+        window.saveBook = async function() {
+            if (!selectedBookId) {
+                alert('Книга не выбрана!');
+                return;
+            }
+
+            const title = document.getElementById('editTitle').value.trim();
+            const autor = document.getElementById('editAutor').value.trim();
+            const characters = document.getElementById('editCharacters').value.trim();
+            const text = document.getElementById('editText').value;
+
+            if (!title || !autor || !characters || !text) {
+                alert('Заполните все поля!');
+                return;
+            }
+
+            const book = allBooks.find(b => b.id === selectedBookId);
+            
+            const { data, error } = await supabase
+                .from("books")
+                .update({
+                    title,
+                    autor,
+                    characters,
+                    text
+                })
+                .eq('id', selectedBookId);
+
+            if (error) {
+                alert('Ошибка при сохранении: ' + error.message);
+                console.error(error);
+            } else {
+                alert('Книга успешно обновлена!');
+                loadBooks();
+            }
+        }
+
+        window.deleteBook = async function() {
+            if (!selectedBookId) {
+                alert('Книга не выбрана!');
+                return;
+            }
+
+            const book = allBooks.find(b => b.id === selectedBookId);
+            const confirmDelete = confirm(`Вы уверены, что хотите удалить книгу "${book.title}"?`);
+
+            if (!confirmDelete) return;
+
+            const { data, error } = await supabase
+                .from("books")
+                .delete()
+                .eq('id', selectedBookId);
+
+            if (error) {
+                alert('Ошибка при удалении: ' + error.message);
+                console.error(error);
+            } else {
+                alert('Книга успешно удалена!');
+                
+                document.getElementById('notChoosed').style.display = 'flex';
+                document.getElementById('bookEditor').style.display = 'none';
+                selectedBookId = null;
+                
+                loadBooks();
+            }
+        }
+
+        supabase.channel('books-moderator')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'books' }, payload => {
+                console.log('Realtime update:', payload);
+                loadBooks();
+            })
+            .subscribe();
+
+        loadBooks();
+    </script>
+</body>
+</html>
